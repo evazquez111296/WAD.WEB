@@ -1,0 +1,14 @@
+.LogInForm{
+    padding: 1em;
+    font-weight: bold!important;
+    color: black;
+    background-color: white;
+    border-radius: 10px!important;
+    width: 20em!important;
+}
+
+.btnLogIn{
+    font-weight: bold;
+    display: block;
+    text-align: center;
+}

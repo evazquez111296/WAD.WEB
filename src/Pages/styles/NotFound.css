@@ -1,0 +1,11 @@
+.NotFoundDiv{
+    width: 100%;
+    min-height: calc(100vh - 60px);
+    background: url('../../images/NotFound.png'), white;
+    background-repeat: no-repeat;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background-position: center;
+}
