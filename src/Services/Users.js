@@ -23,8 +23,10 @@ class UserService{
             responseType:'json'
         })
     }
-    SignOutUser=()=>{
-        
+    signOut=()=>{
+        let rootURL=window.App.url
+        let url=`${rootURL}/Users/SignOut`
+        return Axios.get(url)
     }
 }
 

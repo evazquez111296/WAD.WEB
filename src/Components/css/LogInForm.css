@@ -2,13 +2,23 @@
     padding: 1em;
     font-weight: bold!important;
     color: black;
-    background-color: white;
     border-radius: 10px!important;
     width: 20em!important;
+    border-width: 3px!important;
+    text-align: center;
 }
 
 .btnLogIn{
     font-weight: bold;
     display: block;
     text-align: center;
+}
+
+.userIcon{
+    background-image: url("../../icons/userNameIcon.png");
+    background-position: center center;
+}
+
+.errorLoginClass{
+    color: red!important;
 }

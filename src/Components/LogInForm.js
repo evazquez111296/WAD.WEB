@@ -4,6 +4,8 @@ import UserService from '../Services/Users.js'
 import './css/LogInForm.css'
 const qs = require('qs');
 import { Redirect } from 'react-router';
+const userIcon =require("../icons/userNameIcon.png")
+const passwordIcon=require("../icons/passwordIcon.png")
 
 class LogInForm extends React.Component{
 
@@ -17,7 +19,8 @@ class LogInForm extends React.Component{
         this.state={
             userName:'',
             password:'',
-            redirectNotFound:false
+            redirectNotFound:false,
+            errorLogin:undefined
         }
     }
     
@@ -32,13 +35,16 @@ class LogInForm extends React.Component{
         const params = new URLSearchParams();
         console.log(self.state)
         var promise=service.LoginUser(self.state)
-        promise.then(function(response){
-            var a=response.data
-            debugger;
+        promise.then(response=>{
+            let {exception}=response.data
+            if(exception)
+                throw new Error(exception['message'])
+            self.props.userOnline(self.state.userName)
+            self.props.onSignOut()
+            self.props.setSignIn(false)
         })
         .catch(error=>{
-            this.setState({redirectNotFound: true});
-            let {status}=error.response
+            this.setState({errorLogin:error.message});
             //window.location.assign("/sample");            
         })
 
@@ -51,14 +57,16 @@ class LogInForm extends React.Component{
     }
 
     render(){
-        if (this.state.redirectNotFound) {
+        let {errorLogin,redirectNotFound}=this.state
+        if (redirectNotFound) {
             this.setState({redirectNotFound:false})
             return <Redirect push to="/NotFound" />;
           }
         return (
-            <form className="LogInForm">
+            <form className="LogInForm border border-dark">
                 <div className="form-group">
-                    <label htmlFor="userNameNode">UserName</label>
+                <img src={userIcon} className="img-responsive zmdi zmdi-link" alt="Responsive image " width="30" height="24" /> 
+                    <label htmlFor="userNameNode">Usuario</label>
                     <input
                         onChange={this.handleChange}
                         name="userName"
@@ -69,7 +77,8 @@ class LogInForm extends React.Component{
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="userNameNode">Password</label>
+                <img src={passwordIcon} className="img-responsive zmdi zmdi-link" alt="Responsive image " width="30" height="24" /> 
+                    <label htmlFor="userNameNode">Contraseña</label>
                     <input
                         onChange={this.handleChange}
                         name="password"
@@ -85,6 +94,7 @@ class LogInForm extends React.Component{
                     className="btn btn-success btnLogIn btnCreate"
                 >Entrar
                 </div>
+               { errorLogin && <h6 className="errorLoginClass">{errorLogin}</h6>}
             </form>
         )
     }
